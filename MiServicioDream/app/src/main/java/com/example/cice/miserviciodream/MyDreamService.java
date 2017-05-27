@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class MyDreamService extends DreamService implements View.OnClickListener {
+public class MyDreamService extends DreamService implements View.OnClickListener,Animation.AnimationListener {
 
     private Animation animation;
 
@@ -64,6 +64,7 @@ public class MyDreamService extends DreamService implements View.OnClickListener
         this.animation= AnimationUtils.loadAnimation(this,R.anim.animacion_dream);
         animation.reset();
         linearLayout.startAnimation(animation);
+        animation.setAnimationListener(this);
         super.onDreamingStarted();
 
     }
@@ -83,4 +84,25 @@ public class MyDreamService extends DreamService implements View.OnClickListener
     }
 
 
+    @Override
+    public void onAnimationStart(Animation animation) {
+        Log.d("MENSAJE","ANIMATION STARTED");
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        Log.d("MENSAJE","ANIMATION ENDED");
+        ImageView i1=(ImageView)findViewById(R.id.imagen1);
+        ImageView i2=(ImageView)findViewById(R.id.imagen2);
+        i1.setImageResource(R.drawable.animales1);
+        i2.setImageResource(R.drawable.animales2);
+        //Reiniciamos la aplicación.
+        LinearLayout linearLayout=(LinearLayout)findViewById(R.id.layout_padre);
+        linearLayout.startAnimation(animation);
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        Log.d("MENSAJE","ANIMATION REPEATED");
+    }
 }
